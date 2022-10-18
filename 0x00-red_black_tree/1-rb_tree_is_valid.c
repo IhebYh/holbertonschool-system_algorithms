@@ -27,5 +27,7 @@ int computeBlackHeight(const rb_tree_t *currNode)
  */
 int rb_tree_is_valid(const rb_tree_t *tree)
 {
+	if (!tree || tree->color != BLACK)
+		return (0);
 	return computeBlackHeight(tree) != -1;
 }
