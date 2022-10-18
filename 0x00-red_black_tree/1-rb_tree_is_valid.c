@@ -6,19 +6,19 @@
  * Return: int
  */
 
-int computeBlackHeight(const rb_tree_t *currNode) 
+int computeBlackHeight(const rb_tree_t *currNode)
 {
-    if (currNode == NULL)
-        return 0; 
+	if (currNode == NULL)
+		return (0);
 
-    int leftHeight = computeBlackHeight(currNode->left);
-    int rightHeight = computeBlackHeight(currNode->right);
-    int add = currNode->color == BLACK ? 1 : 0;
+	int leftHeight = computeBlackHeight(currNode->left);
+	int rightHeight = computeBlackHeight(currNode->right);
+	int add = currNode->color == BLACK ? 1 : 0;
 
-    if (leftHeight == -1 || rightHeight == -1 || leftHeight != rightHeight)
-        return -1; 
-    else
-        return leftHeight + add;
+	if (leftHeight == -1 || rightHeight == -1 || leftHeight != rightHeight)
+		return (-1);
+	else
+		return (leftHeight + add);
 }
 /**
  * rb_tree_is_valid - checks if a binary tree is a valid Red-balck tree
@@ -29,5 +29,5 @@ int rb_tree_is_valid(const rb_tree_t *tree)
 {
 	if (!tree || tree->color != BLACK)
 		return (0);
-	return computeBlackHeight(tree) != -1;
+	return (computeBlackHeight(tree) != -1);
 }
