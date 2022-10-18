@@ -1,24 +1,32 @@
 #include "rb_trees.h"
 
 /**
- * computeBlackHeight - compute theblack height
- * @currNode : current node
- * Return: int
+ * tree_validity - recursively valildates RB tree properties
+ * @tree: pointer to root of tree to validate
+ * Return: 1 if valid else 0
  */
-
-int computeBlackHeight(const rb_tree_t *currNode)
+int tree_validity(const rb_tree_t *tree)
 {
-	if (currNode == NULL)
+	if (!tree->left && !tree->right)
+		return (1);
+
+	if (!tree->color)
 		return (0);
 
-	int leftHeight = computeBlackHeight(currNode->left);
-	int rightHeight = computeBlackHeight(currNode->right);
-	int add = currNode->color == BLACK ? 1 : 0;
+	if (tree->color == RED)
+	{
+		if (tree->parent->color == tree->color)
+			return (0);
+		if (tree->color == tree->left->color || tree->color == tree->right->color)
+			return (0);
+	}
 
-	if (leftHeight == -1 || rightHeight == -1 || leftHeight != rightHeight)
-		return (-1);
-	else
-		return (leftHeight + add);
+	if (tree->left && !tree->right)
+		return (0);
+	if (!tree->left && tree->right)
+		return (0);
+
+	return (tree_validity(tree->right) && tree_validity(tree->left));
 }
 /**
  * rb_tree_is_valid - checks if a binary tree is a valid Red-balck tree
@@ -29,5 +37,5 @@ int rb_tree_is_valid(const rb_tree_t *tree)
 {
 	if (!tree || tree->color != BLACK)
 		return (0);
-	return (computeBlackHeight(tree) != -1);
+	return (tree_validity(tree->right) && tree_validity(tree->left));
 }
