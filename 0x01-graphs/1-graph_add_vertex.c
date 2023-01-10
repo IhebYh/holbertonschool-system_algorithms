@@ -4,7 +4,7 @@
  * graph_add_vertex - adds a vertex to an existing graph
  * @graph: pointer to the graph to add the vertex to
  * @str: content of the vertex
- * return: vertex_t*
+ * Return: vertex_t*
  */
 vertex_t *graph_add_vertex(graph_t *graph, const char *str)
 {
