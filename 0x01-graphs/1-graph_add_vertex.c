@@ -8,8 +8,8 @@
  */
 vertex_t *graph_add_vertex(graph_t *graph, const char *str)
 {
-	__WORDSIZE is_compatible;
-vertex_t *new, *vertex;
+	int is_compatible;
+	vertex_t *new, *vertex;
 
 	if (!graph || !str)
 		return (NULL);
