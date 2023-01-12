@@ -1,39 +1,113 @@
 #include "graphs.h"
 
+#define FAILED_SRC	1
+#define FAILED_DEST	2
+
+
 /**
  * graph_add_edge - adds edge to graph
  * @graph: pointer to graph object
- * @str: string value for new vertex
+ * @src: name of source vertex
+ * @dest: name of destination vertex
+ * @type: type of edge UNI/BI
  * Return: 1 on success else 0
  */
-int graph_add_edge(graph_t *graph, const char *str)
+int graph_add_edge(graph_t *graph, const char *src,
+				   const char *dest, edge_type_t type)
 {
-	vertex_t *new_vertex, *vertex;
+	vertex_t *srcVertex = NULL, *destVertex = NULL, *currVertex;
+	edge_t *srcEdge, *destEdge, *newSrcEdge, *newDestEdge;
+	int failure = 0;
 
-	if (!graph || !str)
-		return (NULL);
-	vertex = graph->vertices;
-	while (vertex)
+	if (!graph || !src || !dest)
+		return (0);
+	for (currVertex = graph->vertices; currVertex; currVertex = currVertex->next)
 	{
-		if (!strcmp(vertex->content, str))
-			return (NULL);
-		if (!vertex->next)
+		if (srcVertex && destVertex)
 			break;
-		vertex = vertex->next;
+		if (!srcVertex && !strcmp(src, currVertex->content))
+			srcVertex = currVertex;
+		if (!destVertex && !strcmp(dest, currVertex->content))
+			destVertex = currVertex;
 	}
-	new_vertex = malloc(size(vertex_t));
-	if (!new_vertex)
-		return (NULL);
-	new_vertex->content = strdup(str);
-	if (!new_vertex->content)
+	if (!srcVertex || !destVertex)
+		return (0);
+	for (srcEdge = srcVertex->edges; srcEdge; srcEdge = srcEdge->next)
 	{
-		free(new_vertex);
-		return (NULL);
+		if (srcEdge->dest == destVertex)
+		{
+			failure = FAILED_SRC;
+			break;
+		}
 	}
-	new_vertex->index = graph->nb_vertices++;
-	if (vertex)
-		vertex->next = new_vertex;
+	if (failure == FAILED_SRC)
+		return (0);
+	for (destEdge = destVertex->edges; destEdge; destEdge = destEdge->next)
+	{
+		if (destEdge->dest == srcVertex)
+		{
+			failure = FAILED_DEST;
+			break;
+		}
+	}
+	if (failure == FAILED_DEST && type == BIDIRECTIONAL)
+		return (0);
+	newSrcEdge = malloc(sizeof(edge_t));
+	if (!newSrcEdge)
+	{
+		free(newSrcEdge);
+		return (0);
+	}
+	newDestEdge = malloc(sizeof(edge_t));
+	if (!newDestEdge)
+	{
+		free(newDestEdge);
+		return (0);
+	}
+	return (edge_creator(srcVertex, destVertex, srcEdge,
+						newSrcEdge, destEdge, newDestEdge, type));
+}
+
+/**
+ * edge_creator - creating an edge for the vertex
+ * in consideration of the edge type
+ * @srcVertex : source vertex
+ * @destVertex : destination vertex
+ * @srcEdge : source edge
+ * @newSrcEdge : new source edge
+ * @destEdge : destination edge
+ * @newDestEdge : new destination edge
+ * @type : edge type
+ * Return: int
+ */
+int edge_creator(vertex_t srcVertex, vertex_t destVertex, edge_t srcEdge,
+				edge_t newSrcEdge, edge_t destEdge, edge_t newDestEdge, edge_type_t type)
+{
+	if (type == BIDIRECTIONAL)
+	{
+		srcVertex->nb_edges++;
+		destVertex->nb_edges++;
+		newDestEdge->dest = srcVertex;
+		newSrcEdge->dest = destVertex;
+		if (destEdge)
+			destEdge->next = newDestEdge;
+		else
+			destVertex->edges = newDestEdge;
+		if (srcEdge)
+			srcEdge->next = newSrcEdge;
+		else
+			srcVertex->edges = newSrcEdge;
+	}
 	else
-		graph->vertices = new_vertex;
-	return (new_vertex);
+	{
+		free(newDestEdge);
+		srcVertex->nb_edges++;
+		newSrcEdge->dest = srcVertex;
+		if (srcEdge)
+			srcEdge->next = newSrcEdge;
+		else
+			srcVertex->edges = newSrcEdge;
+	}
+	return (1);
+
 }
