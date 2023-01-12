@@ -80,8 +80,8 @@ int graph_add_edge(graph_t *graph, const char *src,
  * @type : edge type
  * Return: int
  */
-int edge_creator(vertex_t srcVertex, vertex_t destVertex, edge_t srcEdge,
-				edge_t newSrcEdge, edge_t destEdge, edge_t newDestEdge, edge_type_t type)
+int edge_creator(vertex_t *srcVertex, vertex_t *destVertex, edge_t *srcEdge,
+				edge_t *newSrcEdge, edge_t *destEdge, edge_t *newDestEdge, edge_type_t type)
 {
 	if (type == BIDIRECTIONAL)
 	{
