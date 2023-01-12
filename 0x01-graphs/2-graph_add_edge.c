@@ -64,8 +64,8 @@ int graph_add_edge(graph_t *graph, const char *src,
 		free(newDestEdge);
 		return (0);
 	}
-	return (edge_creator(&srcVertex, &destVertex, &srcEdge,
-						&newSrcEdge, &destEdge, &newDestEdge, type));
+	return (edge_creator(srcVertex, destVertex, srcEdge,
+						newSrcEdge, destEdge, newDestEdge, type));
 }
 
 /**
@@ -102,7 +102,7 @@ int edge_creator(vertex_t *srcVertex, vertex_t *destVertex, edge_t *srcEdge,
 	{
 		free(newDestEdge);
 		srcVertex->nb_edges++;
-		newSrcEdge->dest = srcVertex;
+		newSrcEdge->dest = destVertex;
 		if (srcEdge)
 			srcEdge->next = newSrcEdge;
 		else
