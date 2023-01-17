@@ -15,12 +15,76 @@
 int graph_add_edge(graph_t *graph, const char *src,
 				   const char *dest, edge_type_t type)
 {
-	vertex_t *srcVertex = NULL, *destVertex = NULL, *currVertex;
+	vertex_t *srcVertex = NULL, *destVertex = NULL;
 	edge_t *srcEdge, *destEdge, *newSrcEdge, *newDestEdge;
 	int failure = 0;
 
 	if (!graph || !src || !dest)
 		return (0);
+	failure = get_edges_vertices(src, dest, srcVertex, destVertex, srcEdge,
+				newSrcEdge, destEdge, newDestEdge, type);
+	if (failure == FAILED_DEST && type == BIDIRECTIONAL)
+		return (0);
+	newSrcEdge = malloc(sizeof(edge_t));
+	if (!newSrcEdge)
+	{
+		free(newSrcEdge);
+		return (0);
+	}
+	newDestEdge = malloc(sizeof(edge_t));
+	if (!newDestEdge)
+	{
+		free(newDestEdge);
+		return (0);
+	}
+	if (type == BIDIRECTIONAL)
+	{
+		srcVertex->nb_edges++;
+		destVertex->nb_edges++;
+		newDestEdge->dest = srcVertex;
+		newSrcEdge->dest = destVertex;
+		if (destEdge)
+			destEdge->next = newDestEdge;
+		else
+			destVertex->edges = newDestEdge;
+		if (srcEdge)
+			srcEdge->next = newSrcEdge;
+		else
+			srcVertex->edges = newSrcEdge;
+	}
+	else
+	{
+		free(newDestEdge);
+		srcVertex->nb_edges++;
+		newSrcEdge->dest = destVertex;
+		if (srcEdge)
+			srcEdge->next = newSrcEdge;
+		else
+			srcVertex->edges = newSrcEdge;
+	}
+	return (1);
+}
+
+/**
+ * edge_creator - creating an edge for the vertex
+ * in consideration of the edge type
+ * @srcVertex : source vertex
+ * @destVertex : destination vertex
+ * @srcEdge : source edge
+ * @newSrcEdge : new source edge
+ * @destEdge : destination edge
+ * @newDestEdge : new destination edge
+ * @type : edge type
+ * Return: int
+ */
+int get_edges_vertices(const char *src, const char *dest, vertex_t *srcVertex,
+					  vertex_t *destVertex, edge_t *srcEdge,
+					  edge_t *newSrcEdge, edge_t *destEdge,
+					  edge_t *newDestEdge, edge_type_t type)
+{
+	int failure = 0;
+	vertex_t *currVertex;
+
 	for (currVertex = graph->vertices; currVertex; currVertex = currVertex->next)
 	{
 		if (srcVertex && destVertex)
@@ -50,64 +114,5 @@ int graph_add_edge(graph_t *graph, const char *src,
 			break;
 		}
 	}
-	if (failure == FAILED_DEST && type == BIDIRECTIONAL)
-		return (0);
-	newSrcEdge = malloc(sizeof(edge_t));
-	if (!newSrcEdge)
-	{
-		free(newSrcEdge);
-		return (0);
-	}
-	newDestEdge = malloc(sizeof(edge_t));
-	if (!newDestEdge)
-	{
-		free(newDestEdge);
-		return (0);
-	}
-	return (edge_creator(srcVertex, destVertex, srcEdge,
-						newSrcEdge, destEdge, newDestEdge, type));
-}
-
-/**
- * edge_creator - creating an edge for the vertex
- * in consideration of the edge type
- * @srcVertex : source vertex
- * @destVertex : destination vertex
- * @srcEdge : source edge
- * @newSrcEdge : new source edge
- * @destEdge : destination edge
- * @newDestEdge : new destination edge
- * @type : edge type
- * Return: int
- */
-int edge_creator(vertex_t *srcVertex, vertex_t *destVertex, edge_t *srcEdge,
-				edge_t *newSrcEdge, edge_t *destEdge, edge_t *newDestEdge, edge_type_t type)
-{
-	if (type == BIDIRECTIONAL)
-	{
-		srcVertex->nb_edges++;
-		destVertex->nb_edges++;
-		newDestEdge->dest = srcVertex;
-		newSrcEdge->dest = destVertex;
-		if (destEdge)
-			destEdge->next = newDestEdge;
-		else
-			destVertex->edges = newDestEdge;
-		if (srcEdge)
-			srcEdge->next = newSrcEdge;
-		else
-			srcVertex->edges = newSrcEdge;
-	}
-	else
-	{
-		free(newDestEdge);
-		srcVertex->nb_edges++;
-		newSrcEdge->dest = destVertex;
-		if (srcEdge)
-			srcEdge->next = newSrcEdge;
-		else
-			srcVertex->edges = newSrcEdge;
-	}
-	return (1);
-
+	return (failure);
 }
