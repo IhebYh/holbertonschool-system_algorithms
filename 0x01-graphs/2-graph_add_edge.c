@@ -16,7 +16,7 @@ int graph_add_edge(graph_t *graph, const char *src,
 				   const char *dest, edge_type_t type)
 {
 	vertex_t *srcVertex = NULL, *destVertex = NULL;
-	edge_t *srcEdge, *destEdge, *newSrcEdge, *newDestEdge;
+	edge_t *srcEdge = NULL, *destEdge = NULL, *newSrcEdge, *newDestEdge;
 	int failure = 0;
 
 	if (!graph || !src || !dest)
