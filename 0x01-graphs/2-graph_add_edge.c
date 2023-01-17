@@ -22,7 +22,7 @@ int graph_add_edge(graph_t *graph, const char *src,
 	if (!graph || !src || !dest)
 		return (0);
 	failure = get_edges_vertices(src, dest, srcVertex, destVertex, srcEdge,
-				destEdge, type, graph);
+				destEdge, graph);
 	if (failure == FAILED_DEST && type == BIDIRECTIONAL)
 		return (0);
 	newSrcEdge = malloc(sizeof(edge_t));
@@ -68,18 +68,18 @@ int graph_add_edge(graph_t *graph, const char *src,
 /**
  * edge_creator - creating an edge for the vertex
  * in consideration of the edge type
- * @srcVertex : source vertex
- * @destVertex : destination vertex
- * @srcEdge : source edge
- * @newSrcEdge : new source edge
- * @destEdge : destination edge
- * @newDestEdge : new destination edge
- * @type : edge type
+ * @srcVertex: source vertex
+ * @destVertex: destination vertex
+ * @srcEdge: source edge
+ * @src: source
+ * @destEdge: destination edge
+ * @dest: destination
+ * @graph: graph
  * Return: int
  */
 int get_edges_vertices(const char *src, const char *dest, vertex_t *srcVertex,
 					  vertex_t *destVertex, edge_t *srcEdge,
-					  edge_t *destEdge, edge_type_t type, graph_t *graph)
+					  edge_t *destEdge, graph_t *graph)
 {
 	int failure = 0;
 	vertex_t *currVertex;
