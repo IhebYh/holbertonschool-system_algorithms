@@ -76,4 +76,10 @@ int get_edges_vertices(const char *src, const char *dest, vertex_t **srcVertex,
 					  vertex_t **destVertex, edge_t **srcEdge,
 					  edge_t **destEdge, graph_t *graph);
 void graph_delete(graph_t *graph);
+size_t depth_first_traverse(const graph_t *graph,
+	void (*action)(const vertex_t *v, size_t depth));
+size_t dfs(vertex_t *vertex, void (*action)(const vertex_t *v, size_t depth),
+	size_t depth);
+size_t max(size_t a, size_t b);
+
 #endif /* _GRAPHS_H_ */
