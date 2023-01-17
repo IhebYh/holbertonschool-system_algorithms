@@ -75,6 +75,6 @@ int graph_add_edge(graph_t *graph, const char *src,
 int get_edges_vertices(const char *src, const char *dest, vertex_t *srcVertex,
 					  vertex_t *destVertex, edge_t *srcEdge,
 					  edge_t *newSrcEdge, edge_t *destEdge,
-					  edge_t *newDestEdge, edge_type_t type);
+					  edge_t *newDestEdge, edge_type_t type, graph_t *graph);
 
 #endif /* _GRAPHS_H_ */
