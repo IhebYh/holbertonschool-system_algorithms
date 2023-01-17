@@ -81,5 +81,10 @@ size_t depth_first_traverse(const graph_t *graph,
 size_t dfs(vertex_t *vertex, void (*action)(const vertex_t *v, size_t depth),
 	size_t depth);
 size_t max(size_t a, size_t b);
+size_t breadth_first_traverse(const graph_t *graph,
+	void (*action)(const vertex_t *v, size_t depth));
+int queue_pop(queue_t *queue, vertex_t **vertex, size_t *depth);
+int queue_push(queue_t *queue, vertex_t *vertex, size_t depth);
+void queue_free(queue_t *queue);
 
 #endif /* _GRAPHS_H_ */
