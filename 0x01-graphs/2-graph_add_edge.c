@@ -83,21 +83,23 @@ int get_edges_vertices(const char *src, const char *dest, vertex_t **srcVertex,
 {
 	int failure = 0;
 	vertex_t *currVertex;
+	edge_t *src_e = NULL, *dest_e = NULL;
+	vertex_t *src_v = NULL, *dest_v = NULL;
 
 	for (currVertex = graph->vertices; currVertex; currVertex = currVertex->next)
 	{
-		if (srcVertex && destVertex)
+		if (src_v && dest_v)
 			break;
-		if (!srcVertex && !strcmp(src, currVertex->content))
-			srcVertex = currVertex;
-		if (!destVertex && !strcmp(dest, currVertex->content))
-			destVertex = currVertex;
+		if (!src_v && !strcmp(src, currVertex->content))
+			src_v = currVertex;
+		if (!dest_v && !strcmp(dest, currVertex->content))
+			dest_v = currVertex;
 	}
-	if (!srcVertex || !destVertex)
+	if (!src_v || !dest_v)
 		return (0);
-	for (srcEdge = srcVertex->edges; srcEdge; srcEdge = srcEdge->next)
+	for (src_e = src_v->edges; src_e; src_e = src_e->next)
 	{
-		if (srcEdge->dest == destVertex)
+		if (src_e->dest == dest_v)
 		{
 			failure = FAILED_SRC;
 			break;
@@ -105,13 +107,17 @@ int get_edges_vertices(const char *src, const char *dest, vertex_t **srcVertex,
 	}
 	if (failure == FAILED_SRC)
 		return (0);
-	for (destEdge = destVertex->edges; destEdge; destEdge = destEdge->next)
+	for (dest_e = dest_v->edges; dest_e; dest_e = dest_e->next)
 	{
-		if (destEdge->dest == srcVertex)
+		if (dest_e->dest == src_v)
 		{
 			failure = FAILED_DEST;
 			break;
 		}
 	}
+	*destEdge = dest_e;
+	*destVertex = dest_v;
+	*srcEdge = src_e;
+	*srcVertex = src_v;
 	return (failure);
 }
