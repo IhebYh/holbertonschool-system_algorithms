@@ -36,6 +36,12 @@ queue_t *backtracking_array(char **map, int rows, int cols,
 			queue_push_front(reverse_path, point);
 		free(path);
 	}
+	else
+	{
+		free(path);
+		free(reverse_path);
+		reverse_path = NULL;
+	}
 	for (i = 0; i < rows; i++)
 		free(mymap[i]);
 	free(mymap);
