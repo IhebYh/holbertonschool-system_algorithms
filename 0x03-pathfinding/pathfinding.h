@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 #include "queues.h"
 #include "graphs.h"
@@ -29,5 +30,9 @@ int backtrack(char **map, int rows, int cols, point_t const *start,
 queue_t *backtracking_graph(graph_t *graph, vertex_t const *start,
 	vertex_t const *target);
 int dfs(vertex_t const *vertex);
+
+queue_t *dijkstra_graph(graph_t *graph, vertex_t const *start,
+	vertex_t const *target);
+int dijkstra_init(graph_t *graph, vertex_t *v);
 
 #endif /* _PATHFINDING_H_ */
