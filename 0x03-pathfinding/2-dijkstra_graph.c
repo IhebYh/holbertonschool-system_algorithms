@@ -17,7 +17,7 @@ queue_t *dijkstra_graph(graph_t *graph, vertex_t const *start,
 	vertex_t const *target)
 {
 	ssize_t i, d, j = -1;
-	vertex_t *v;
+	vertex_t *v = NULL;
 	edge_t *e;
 	queue_t *path = queue_create();
 	char *str;
