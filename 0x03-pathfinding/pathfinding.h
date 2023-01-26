@@ -33,6 +33,5 @@ int dfs(vertex_t const *vertex);
 
 queue_t *dijkstra_graph(graph_t *graph, vertex_t const *start,
 	vertex_t const *target);
-int dijkstra_init(graph_t *graph, vertex_t *v, queue_t *path);
 
 #endif /* _PATHFINDING_H_ */
