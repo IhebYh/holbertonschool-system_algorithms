@@ -24,7 +24,7 @@ queue_t *dijkstra_graph(graph_t *graph, vertex_t const *start,
 
 	if (!graph || !start || !target || !path)
 		return (NULL);
-	if (dijkstra_init(graph, v) == 0)
+	if (dijkstra_init(graph, v, path) == 0)
 		return (NULL);
 	dists[start->index] = 0, from[start->index] = NULL;
 	while (j != (ssize_t)target->index)
@@ -64,7 +64,7 @@ queue_t *dijkstra_graph(graph_t *graph, vertex_t const *start,
  * @v: pointer to the vertex used
  * Return: 0 in failure or 1 in success
  */
-int dijkstra_init(graph_t *graph, vertex_t *v)
+int dijkstra_init(graph_t *graph, vertex_t *v, queue_t *path)
 {
 	dists = calloc(graph->nb_vertices, sizeof(*dists));
 	from = calloc(graph->nb_vertices, sizeof(*from));
