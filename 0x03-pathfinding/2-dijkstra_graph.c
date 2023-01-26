@@ -24,7 +24,7 @@ queue_t *dijkstra_graph(graph_t *graph, vertex_t const *start,
 
 	if (!graph || !start || !target || !path)
 		return (NULL);
-	if (dijkstra_init(*graph, *v) == 0)
+	if (dijkstra_init(graph, v) == 0)
 		return (NULL);
 	dists[start->index] = 0, from[start->index] = NULL;
 	while (j != (ssize_t)target->index)
