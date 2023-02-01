@@ -1,7 +1,7 @@
 #include "heap.h"
 
 /**
- * @binary_tree_node - creates a generic Binary Tree node
+ * binary_tree_node - creates a generic Binary Tree node
  *
  * @parent: a pointer to the parent node of the node to be created
  * @data: the data to be stored in the node

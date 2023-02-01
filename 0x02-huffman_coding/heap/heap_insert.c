@@ -1,7 +1,7 @@
 #include "heap.h"
 
 /**
- * @heap_insert - inserts a value in a Min Binary Heap
+ * heap_insert - inserts a value in a Min Binary Heap
  *
  * @heap: a pointer to the heap in which the node has to be inserted
  * @data: a pointer containing the data to store in the new node
