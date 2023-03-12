@@ -18,4 +18,5 @@ nary_tree_t *nary_tree_insert(nary_tree_t *parent, char const *str)
 	new->nb_children = 0;
 	new->children = NULL;
 	new->next = NULL;
+	return (new);
 }
