@@ -11,7 +11,7 @@ nary_tree_t *nary_tree_insert(nary_tree_t *parent, char const *str)
 	nary_tree_t *new;
 
 	new = malloc(sizeof(nary_tree_t));
-	if (!new || !parent)
+	if (!new)
 		return (NULL);
 	new->content = strdup(str);
 	new->parent = parent;
